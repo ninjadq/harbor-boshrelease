@@ -6,11 +6,14 @@ services:
        volumes:
            - "/:/hostfs:ro"
            - "./telegraf.config:/telegraf.config"
+           - "/var/log/harbor:/harbor_log"
        environment:
            - HOST_MOUNT_PREFIX=/hostfs
            - HOST_PROC=/hostfs/proc
     wavefront-proxy:
         image: wavefronthq/proxy:4.38
+        volumes:
+          - "/var/log/harbor/wavefront:/var/log/wavefront"
         environment:
             - WAVEFRONT_URL=<%= p("wavefront_url") %> 
             - WAVEFRONT_TOKEN=<%= p("wavefront_token") %> 
